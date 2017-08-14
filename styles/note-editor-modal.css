@@ -1,0 +1,51 @@
+.no-padding {
+  padding: 0 !important;
+}
+
+.inherit-padding {
+  padding: inherit !important;
+}
+
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+}
+
+#note-title-input {
+  margin: 0;
+  padding: 8px;
+  padding-left: 16px;
+  font-size: 25px;
+  width: auto;
+  background-color: #ECEFF1;
+  border-bottom: 1px #95989A solid;
+}
+#note-title-input::-webkit-input-placeholder {
+  color: #95989A;
+}
+
+#note-text-input {
+  margin: 0;
+  width: auto;
+  flex: 1;
+  padding: 16px;
+  height: 300px;
+  border: none;
+  outline: none !important;
+  resize: none;
+  border-bottom: 1px rgba(0,0,0,0.1) solid;
+}
+#note-text-input::-webkit-input-placeholder {
+  color: #95989A;
+}
+
+.modal-footer i {
+  color: #455A64;
+  font-size: 30px;
+}
+
+.modal-footer a {
+  padding-right: 13px;
+  padding-left: 13px;
+}

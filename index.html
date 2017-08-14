@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Simple Note</title>
+  <link rel="shortcut icon" href="https://firebasestorage.googleapis.com/v0/b/simplenote-d7392.appspot.com/o/ic_launcher_round.png?alt=media&token=d60103b5-17b2-4518-9759-cbd9ce089aac" />
+
+  <!-- Below is the initialization snippet for my Firebase project. It will vary for each project -->
+  <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+
+  <!-- The code below initializes the sign-in widget from FirebaseUI web. -->
+  <script src="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.css" />
+
+  <!-- Include Jquery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!-- Include Roboto -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400" rel="stylesheet">
+
+  <!-- Include Materialize.css -->
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
+
+  <script src="index.js"></script>
+  <script src="note.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="styles/scrollbar.css" />
+  <link type="text/css" rel="stylesheet" href="styles/toolbar.css" />
+  <link type="text/css" rel="stylesheet" href="styles/auth.css" />
+  <link type="text/css" rel="stylesheet" href="styles/main_app.css" />
+  <link type="text/css" rel="stylesheet" href="styles/note.css" />
+  <link type="text/css" rel="stylesheet" href="styles/note-editor-modal.css" />
+
+  <script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCPvOtFrugaYhQRm_b0lZNzY6ts3Gq8pJk",
+    authDomain: "simplenote-d7392.firebaseapp.com",
+    databaseURL: "https://simplenote-d7392.firebaseio.com",
+    projectId: "simplenote-d7392",
+    storageBucket: "simplenote-d7392.appspot.com",
+    messagingSenderId: "265228981548"
+  };
+  firebase.initializeApp(config);
+  </script>
+</head>
+
+<body>
+
+  <nav id="toolbar">
+    <img
+    id="toolbar-logo"
+    alt="logo"
+    src="https://firebasestorage.googleapis.com/v0/b/simplenote-d7392.appspot.com/o/ic_launcher_round.png?alt=media&token=d60103b5-17b2-4518-9759-cbd9ce089aac"
+    >
+    <p id="toolbar-title">SimpleNote</p>
+    <button id="sign-out" class="auth-req waves-effect waves-teal btn-flat white-text">Log Out</button>
+  </nav>
+
+  <div class="row s12 auth-req">
+    <div id="notes-preloader" class="col offset-s4 s4 center">
+
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+
+          <span class="card-title" style="margin-bottom: 20px;">Loading notes...</span>
+
+          <!-- Spinner -->
+          <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-yellow-only">
+              <div class="circle-clipper left">
+                <div class="circle"></div>
+              </div><div class="gap-patch">
+                <div class="circle"></div>
+              </div><div class="circle-clipper right">
+                <div class="circle"></div>
+              </div>
+            </div>
+          </div> <!-- /Spinner -->
+
+        </div>
+      </div>
+    </div>
+  </div> <!-- End of row -->
+
+
+  <!-- The container that hosts the login ui -->
+  <div id="auth-container" align="center" class="auth-not-req">
+    <img
+    id="auth-logo"
+    alt="logo"
+    src="https://firebasestorage.googleapis.com/v0/b/simplenote-d7392.appspot.com/o/ic_launcher_round.png?alt=media&token=d60103b5-17b2-4518-9759-cbd9ce089aac"
+    >
+    <p id="auth-title">SimpleNote</p>
+  </div>
+
+  <!-- The container for the app itself -->
+  <div id="app-container" class="auth-req">
+
+    <div id="no-notes" class="center" style="display: none; margin-top: 60px;">
+      <img src="https://firebasestorage.googleapis.com/v0/b/simplenote-d7392.appspot.com/o/notes_icon.svg?alt=media&token=c89f6964-9e28-497d-894a-25951f8ef453"
+      alt="note_img"
+      style="width: 150px;"></img>
+      <h5 style="color: #455A64;">No Notes Found</h5>
+    </div>
+
+    <!-- Confirm Deletion Modal Structure -->
+    <div id="delete-note-confirm" class="modal">
+      <div class="modal-content">
+        <h4>Confirm Deletion</h4>
+        <p>This action cannot be undone!</p>
+      </div>
+      <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect btn-flat teal-text">Cancel</a>
+        <a onclick="deleteSelectedNote()" class="modal-action modal-close waves-effect btn-flat red-text">Delete</a>
+      </div>
+    </div>
+
+    <!-- Note Editor Modal Structure -->
+    <div id="note-editor" class="modal">
+      <div class="modal-content no-padding">
+        <input id="note-title-input" type="text" class="flow-text" placeholder="Title"></input>
+        <textarea id="note-text-input" class="flow-text" placeholder="Note"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button onclick="saveNoteInEditor()" class="waves-effect btn-flat">
+          <i class="large material-icons">save</i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Container for note cards -->
+    <div id="note-container"></div>
+
+    <button id="new-note" class="waves-effect"><i class="material-icons">add</i></button>
+  </div>
+
+</body>
+
+</html>

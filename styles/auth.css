@@ -1,0 +1,26 @@
+
+
+#auth-container {
+  display: none;
+  width: 45%;
+  max-width: 400px;
+  min-width: 250px;
+  height: 450px;
+  margin: auto;
+  margin-top: 75px;
+  background-color: #E1E4E6;
+  border-radius: 3px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,.3);
+}
+
+#auth-logo {
+  width: 175px;
+  padding-top: 30px;
+}
+
+#auth-title {
+  font-family: "Roboto", "sans-serif";
+  color: #455A64;
+  font-size: 25px;
+  margin: 0 0 35px 0;
+}

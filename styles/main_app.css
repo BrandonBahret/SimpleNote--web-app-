@@ -1,0 +1,19 @@
+
+#app-container {
+  display: none;
+}
+
+#new-note {
+  width: 60px;
+  height: 60px;
+  border: none;
+  outline: none !important;
+  position: fixed;
+  right: 26px;
+  bottom: 26px;
+  border-radius: 100%;
+  background-color: #549788;
+  color: white;
+  font-size: 33px;
+  box-shadow: 2px 5px 10px rgba(0,0,0,.5);
+}
